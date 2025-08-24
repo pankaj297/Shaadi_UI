@@ -8,6 +8,12 @@
   padding: 20px;
   font-family: 'Poppins', sans-serif;
 }
+.register-imp{
+   color: red;
+}
+.one-user{
+  color: red;
+}
 
 /* Form Box */
 .sf-register-form {

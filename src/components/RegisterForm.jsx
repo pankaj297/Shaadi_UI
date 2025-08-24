@@ -88,7 +88,9 @@ const RegisterForm = () => {
         </button>
 
         <h2 className="sf-form-title">तुमचे प्रोफाइल तयार करा</h2>
-        <p>एका डिव्हाइसवर फक्त एकच User नोंदणी करू शकतो ✅</p>
+        <p className="one-user">
+          एका डिव्हाइसवर फक्त एकच User नोंदणी करू शकतो ✅
+        </p>
         <br />
 
         {/* Personal Information */}
@@ -119,7 +121,9 @@ const RegisterForm = () => {
         </div>
 
         <div className="sf-form-group">
-          <label>जन्म तारीख *</label>
+          <label>
+            जन्म तारीख * <em className="register-imp">वय १८ वर्षे आणि त्याहून अधिक </em>
+          </label>
           <input
             type="date"
             name="dob"

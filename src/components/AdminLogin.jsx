@@ -11,9 +11,9 @@ export const AdminLogin = () => {
 
   // Hard-coded admin credentials
   const adminUser = {
-    username: "admin",
-    password: "admin123",
-    image: "/images/admin.jpeg", // public folder 
+    username: "nitin@5319",
+    password: "nitin@5319",
+    image: "/images/admin.jpeg", // public folder
   };
 
   const handleLogin = (e) => {
