@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./UserCard.css"; // ✅ Add card-specific styles
 
-const BASE_URL = "https://shaadi-server.onrender.com/uploads/";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const UserCard = ({ user }) => {
   const navigate = useNavigate();

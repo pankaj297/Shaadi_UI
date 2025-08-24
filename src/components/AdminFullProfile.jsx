@@ -3,8 +3,7 @@ import { useParams } from "react-router-dom";
 import { getUserById } from "../services/userService";
 import "./AdminFullProfile.css";
 
-const BASE_URL = "https://shaadi-server.onrender.com/uploads/";
-
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const AdminFullProfile = () => {
   const { id } = useParams();
