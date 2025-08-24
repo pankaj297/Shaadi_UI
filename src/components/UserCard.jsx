@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./UserCard.css"; // ✅ Add card-specific styles
 
+const BASE_URL = "https://shaadi-server.onrender.com/uploads/";
+
 const UserCard = ({ user }) => {
   const navigate = useNavigate();
 
@@ -10,7 +12,7 @@ const UserCard = ({ user }) => {
       <img
         src={
           user.profilePhotoPath
-            ? `http://localhost:8080/uploads/${user.profilePhotoPath}`
+            ? `${BASE_URL}${user.profilePhotoPath}`
             : "/default-avatar.png"
         }
         alt={user.name}

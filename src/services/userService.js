@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/users";
+
+const API_URL = "https://shaadi-server.onrender.com/api/users";
 
 // ✅ Register user (multipart/form-data for file upload)
 export const registerUser = async (formData) => {

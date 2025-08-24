@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import { getUserById } from "../services/userService";
 import "./AdminFullProfile.css";
 
+const BASE_URL = "https://shaadi-server.onrender.com/uploads/";
+
+
 const AdminFullProfile = () => {
   const { id } = useParams();
   const [user, setUser] = useState(null);
@@ -42,7 +45,7 @@ const AdminFullProfile = () => {
           <img
             src={
               user.profilePhotoPath
-                ? `http://localhost:8080/uploads/${user.profilePhotoPath}`
+                ? `${BASE_URL}${user.profilePhotoPath}`
                 : "/default-avatar.png"
             }
             alt={user.name}
@@ -144,7 +147,7 @@ const AdminFullProfile = () => {
           <p>
             <span className="admin-info-label"> प्रोफाइल फोटो: </span>
             <a
-              href={`http://localhost:8080/uploads/${user.profilePhotoPath}`}
+              href={`${BASE_URL}${user.profilePhotoPath}`}
               target="_blank"
               rel="noreferrer"
             >
@@ -154,7 +157,7 @@ const AdminFullProfile = () => {
           <p>
             <span className="admin-info-label"> आधार कार्ड: </span>
             <a
-              href={`http://localhost:8080/uploads/${user.aadhaarPath}`}
+              href={`${BASE_URL}${user.aadhaarPath}`}
               target="_blank"
               rel="noreferrer"
             >

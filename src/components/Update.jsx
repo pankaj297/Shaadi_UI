@@ -3,7 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "./Update.css"; // CSS file
 
-const API_URL = "http://localhost:8080/api/users";
+const API_URL = "https://shaadi-server.onrender.com/api/users";
+const BASE_URL = "https://shaadi-server.onrender.com/uploads/";
 
 const UpdateForm = () => {
   const { id } = useParams();
@@ -68,13 +69,9 @@ const UpdateForm = () => {
         });
 
         if (user.profilePhotoPath)
-          setPhotoPreview(
-            `http://localhost:8080/uploads/${user.profilePhotoPath}`
-          );
+           setPhotoPreview(`${BASE_URL}${user.profilePhotoPath}`);
         if (user.aadhaarPath)
-          setAadhaarPreview(
-            `http://localhost:8080/uploads/${user.aadhaarPath}`
-          );
+          setAadhaarPreview(`${BASE_URL}${user.aadhaarPath}`);
       } catch (err) {
         console.error(err);
       }
