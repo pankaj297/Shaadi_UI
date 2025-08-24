@@ -29,8 +29,8 @@ const UserProfile = () => {
     window.print();
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (!user) return <p>User not found.</p>;
+  if (loading) return <p className="loading">Loading...</p>;
+  if (!user) return <p className="not-found">User not found.</p>;
 
   return (
     <>
