@@ -91,7 +91,7 @@ const HomePage = () => {
               alt="Couple 1"
               className="pm-couple-img"
             />
-            <h3 className="pm-couple-name">अंजली ❤️ पंकज</h3>
+            <h3 className="pm-couple-name">स्नेहा ❤️ रोहन</h3>
           </div>
           <div className="pm-couple-card">
             <img
