@@ -5,9 +5,8 @@ import { registerUser } from "../services/userService";
 import "./RegisterForm.css";
 import axios from "axios";  // add this
 
-const BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "https://shaadi-server.onrender.com/api";
 
+const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:8080";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
