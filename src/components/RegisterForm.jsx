@@ -6,7 +6,8 @@ import "./RegisterForm.css";
 import axios from "axios";  // add this
 
 const BASE_URL =
-  import.meta.env.VITE_BASE_URL || "https://shaadi-server.onrender.com";
+  import.meta.env.VITE_API_BASE_URL || "https://shaadi-server.onrender.com/api";
+
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -79,7 +80,7 @@ const RegisterForm = () => {
         navigate(`/profile/${userId}`);
       }, 2000);
     } catch (err) {
-      console.error("Registration error:", err.response?.data || err.message);
+      console.error(err);
       setSuccessMessage("⚠️ नोंदणी अयशस्वी. कृपया पुन्हा प्रयत्न करा.");
     } finally {
       setIsSubmitting(false); // enable button after request
