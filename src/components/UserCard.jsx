@@ -11,11 +11,7 @@ const UserCard = ({ user }) => {
   return (
     <div className="user-card">
       <img
-        src={
-          user.profilePhotoPath
-            ? `${BASE_URL}${user.profilePhotoPath}`
-            : "/default-avatar.png"
-        }
+        src={user.profilePhotoPath || "/default-avatar.png"}
         alt={user.name}
         className="user-photo"
       />

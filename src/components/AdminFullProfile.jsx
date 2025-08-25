@@ -42,11 +42,7 @@ const AdminFullProfile = () => {
         {/* Left: User Photo */}
         <div className="admin-photo-section">
           <img
-            src={
-              user.profilePhotoPath
-                ? `${BASE_URL}${user.profilePhotoPath}`
-                : "/default-avatar.png"
-            }
+            src={user.profilePhotoPath || "/default-avatar.png"}
             alt={user.name}
             className="admin-user-photo"
           />
@@ -145,25 +141,13 @@ const AdminFullProfile = () => {
           <h2>Documents</h2>
           <p>
             <span className="admin-info-label"> प्रोफाइल फोटो: </span>
-            <a
-              href={
-                user.profilePhotoPath
-                  ? `${BASE_URL}${user.profilePhotoPath}`
-                  : "#"
-              }
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={user.profilePhotoPath} target="_blank" rel="noreferrer">
               View
             </a>
           </p>
           <p>
             <span className="admin-info-label"> आधार कार्ड: </span>
-            <a
-              href={user.aadhaarPath ? `${BASE_URL}${user.aadhaarPath}` : "#"}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={user.aadhaarPath} target="_blank" rel="noreferrer">
               View
             </a>
           </p>

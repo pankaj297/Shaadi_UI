@@ -11,7 +11,7 @@ export default ({ mode }) => {
       port: 5173,
     },
     define: {
-      "process.env.VITE_API_BASE_URL": JSON.stringify(env.VITE_API_BASE_URL),
+      "process.env.VITE_BASE_URL": JSON.stringify(env.VITE_BASE_URL),
     },
   });
 };

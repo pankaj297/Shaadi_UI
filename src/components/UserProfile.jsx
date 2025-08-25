@@ -63,11 +63,7 @@ useEffect(() => {
           {/* Left: User Photo */}
           <div className="up-photo-section">
             <img
-              src={
-                user.profilePhotoPath
-                  ? `${BASE_URL}${user.profilePhotoPath}`
-                  : "/default-avatar.png"
-              }
+              src={user.profilePhotoPath || "/default-avatar.png"}
               alt={user.name}
               className="up-user-photo"
             />
@@ -172,25 +168,16 @@ useEffect(() => {
             <p>
               <span className="up-info-label">प्रोफाइल फोटो :</span>
 
-              <a
-                href={
-                  user.profilePhotoPath
-                    ? `${BASE_URL}${user.profilePhotoPath}`
-                    : "#"
-                }
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href={user.profilePhotoPath} target="_blank" rel="noreferrer">
                 View
               </a>
             </p>
-            <a
-              href={user.aadhaarPath ? `${BASE_URL}${user.aadhaarPath}` : "#"}
-              target="_blank"
-              rel="noreferrer"
-            >
-              View
-            </a>
+            <p>
+              <span className="up-info-label">आधार कार्ड :</span>
+              <a href={user.aadhaarPath} target="_blank" rel="noreferrer">
+                View
+              </a>
+            </p>
           </section>
         </div>
       </div>

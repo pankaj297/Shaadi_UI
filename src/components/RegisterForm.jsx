@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../services/userService";
+
 import "./RegisterForm.css";
 import axios from "axios";  // add this
 
 
+const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:8080";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -58,7 +60,9 @@ const RegisterForm = () => {
       const fd = new FormData();
       Object.keys(formData).forEach((key) => fd.append(key, formData[key]));
 
-      const res = await registerUser(fd);
+      const res = await axios.post(`${BASE_URL}/api/users/register`, fd, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       const userId = res.data.id || res.data.user?.id;
       if (!userId) {

@@ -3,8 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "./Update.css"; // CSS file
 
-const API_URL = import.meta.env.VITE_API_BASE_URL + "/users";
-const BASE_URL = import.meta.env.VITE_API_BASE_URL; // optional, 
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://shaadi-server.onrender.com/api/users";
+const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:8080";
 
 
 const UpdateForm = () => {
