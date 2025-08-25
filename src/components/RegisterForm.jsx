@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../services/userService";
+
 import "./RegisterForm.css";
+import axios from "axios";  // add this
+
+
+const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:8080";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -31,6 +36,7 @@ const RegisterForm = () => {
   const [photoPreview, setPhotoPreview] = useState(null);
   const [successMessage, setSuccessMessage] = useState(""); // ✅ success msg state
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false); // ✅ new state
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -46,29 +52,37 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData();
-    Object.keys(formData).forEach((key) => data.append(key, formData[key]));
+
+    if (isSubmitting) return; // prevent multiple submits
+    setIsSubmitting(true); // disable button
 
     try {
-      const res = await registerUser(data);
-      const userId = res.id || res.user?.id;
-      if (userId) {
-        let storedUsers =
-          JSON.parse(localStorage.getItem("registeredUsers")) || [];
-        if (!storedUsers.includes(userId)) storedUsers.push(userId);
-        localStorage.setItem("registeredUsers", JSON.stringify(storedUsers));
+      const fd = new FormData();
+      Object.keys(formData).forEach((key) => fd.append(key, formData[key]));
 
-        setSuccessMessage("✅ नोंदणी यशस्वी झाली!");
-        setTimeout(() => {
-          setSuccessMessage("");
-          navigate("/"); // 3 sec नंतर home वर पाठवेल
-        }, 3000);
-      } else {
-        setSuccessMessage("❌ नोंदणी अयशस्वी. कृपया पुन्हा प्रयत्न करा.");
+      const res = await axios.post(`${BASE_URL}/api/users/register`, fd, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      const userId = res.data.id || res.data.user?.id;
+      if (!userId) {
+        console.error("User ID missing in backend response", res.data);
+        setSuccessMessage("⚠️ Registration failed: User ID missing!");
+        setIsSubmitting(false);
+        return;
       }
+
+      localStorage.setItem("currentUserId", userId);
+      setSuccessMessage("✅ नोंदणी यशस्वी झाली!");
+
+      setTimeout(() => {
+        navigate(`/profile/${userId}`);
+      }, 2000);
     } catch (err) {
       console.error(err);
-      setSuccessMessage("⚠️ नोंदणी दरम्यान त्रुटी आली!");
+      setSuccessMessage("⚠️ नोंदणी अयशस्वी. कृपया पुन्हा प्रयत्न करा.");
+    } finally {
+      setIsSubmitting(false); // enable button after request
     }
   };
 
@@ -122,7 +136,8 @@ const RegisterForm = () => {
 
         <div className="sf-form-group">
           <label>
-            जन्म तारीख * <em className="register-imp">वय १८ वर्षे आणि त्याहून अधिक </em>
+            जन्म तारीख *{" "}
+            <em className="register-imp">वय १८ वर्षे आणि त्याहून अधिक </em>
           </label>
           <input
             type="date"
@@ -356,9 +371,12 @@ const RegisterForm = () => {
             required
           />
         </div>
-
-        <button className="sf-submit-btn" type="submit">
-          सबमिट करा
+        <button
+          className="sf-submit-btn"
+          type="submit"
+          disabled={isSubmitting} // ✅ disable during submission
+        >
+          {isSubmitting ? "Submitting..." : "सबमिट करा"}
         </button>
       </form>
     </div>

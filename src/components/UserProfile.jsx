@@ -3,32 +3,39 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getUserById } from "../services/userService";
 import "./UserProfile.css";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:8080"; 
 
 const UserProfile = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+const { id } = useParams();
+const navigate = useNavigate();
+const [user, setUser] = useState(null);
+const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const data = await getUserById(id);
-        setUser(data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching user:", error);
-        setLoading(false);
-      }
-    };
-    fetchUser();
-  }, [id]);
+useEffect(() => {
+  // ⚠️ अगर id undefined है तो fetch न करें
+  if (!id) {
+    setLoading(false);
+    return;
+  }
+
+  const fetchUser = async () => {
+    try {
+      const data = await getUserById(id);
+      setUser(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      setLoading(false);
+    }
+  };
+  fetchUser();
+}, [id]);
 
   const handlePrint = () => {
     window.print();
   };
 
+  
   if (loading) return <p className="loading">Loading...</p>;
   if (!user) return <p className="not-found">User not found.</p>;
 
@@ -56,11 +63,7 @@ const UserProfile = () => {
           {/* Left: User Photo */}
           <div className="up-photo-section">
             <img
-              src={
-                user.profilePhotoPath
-                  ? `${BASE_URL}${user.profilePhotoPath}`
-                  : "/default-avatar.png"
-              }
+              src={user.profilePhotoPath || "/default-avatar.png"}
               alt={user.name}
               className="up-user-photo"
             />
@@ -165,21 +168,13 @@ const UserProfile = () => {
             <p>
               <span className="up-info-label">प्रोफाइल फोटो :</span>
 
-              <a
-                href={`${BASE_URL}${user.profilePhotoPath}`}
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href={user.profilePhotoPath} target="_blank" rel="noreferrer">
                 View
               </a>
             </p>
             <p>
               <span className="up-info-label">आधार कार्ड :</span>
-              <a
-                href={`${BASE_URL}${user.aadhaarPath}`}
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href={user.aadhaarPath} target="_blank" rel="noreferrer">
                 View
               </a>
             </p>

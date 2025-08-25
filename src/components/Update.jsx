@@ -6,7 +6,8 @@ import "./Update.css"; // CSS file
 const API_URL =
   import.meta.env.VITE_API_URL ||
   "https://shaadi-server.onrender.com/api/users";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:8080";
+
 
 const UpdateForm = () => {
   const { id } = useParams();
@@ -40,50 +41,48 @@ const UpdateForm = () => {
   const [aadhaarPreview, setAadhaarPreview] = useState(null);
   const [successMessage, setSuccessMessage] = useState(""); // ✅ success box
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/${id}`);
-        const user = res.data;
+const getFileUrl = (path) =>
+  path?.startsWith("http") ? path : `${BASE_URL}${path}`;
 
-        setFormData({
-          name: user.name || "",
-          gender: user.gender || "",
-          dob: user.dob || "",
-          birthplace: user.birthplace || "",
-          kuldevat: user.kuldevat || "",
-          gotra: user.gotra || "",
-          height: user.height || "",
-          bloodGroup: user.bloodGroup || "",
-          education: user.education || "",
-          profession: user.profession || "",
-          fatherName: user.fatherName || "",
-          fatherProfession: user.fatherProfession || "",
-          motherName: user.motherName || "",
-          motherProfession: user.motherProfession || "",
-          siblings: user.siblings || "",
-          mama: user.mama || "",
-          kaka: user.kaka || "",
-          address: user.address || "",
-          mobile: user.mobile || "",
-          profilePhoto: null,
-          aadhaar: null,
-        });
+useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/${id}`);
+      const user = res.data;
 
-        if (user.profilePhotoPath)
-          setPhotoPreview(
-            `${import.meta.env.VITE_BASE_URL}${user.profilePhotoPath}`
-          );
-        if (user.aadhaarPath)
-          setAadhaarPreview(
-            `${import.meta.env.VITE_BASE_URL}${user.aadhaarPath}`
-          );
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchUser();
-  }, [id]);
+      setFormData({
+        name: user.name || "",
+        gender: user.gender || "",
+        dob: user.dob || "",
+        birthplace: user.birthplace || "",
+        kuldevat: user.kuldevat || "",
+        gotra: user.gotra || "",
+        height: user.height || "",
+        bloodGroup: user.bloodGroup || "",
+        education: user.education || "",
+        profession: user.profession || "",
+        fatherName: user.fatherName || "",
+        fatherProfession: user.fatherProfession || "",
+        motherName: user.motherName || "",
+        motherProfession: user.motherProfession || "",
+        siblings: user.siblings || "",
+        mama: user.mama || "",
+        kaka: user.kaka || "",
+        address: user.address || "",
+        mobile: user.mobile || "",
+        profilePhoto: null,
+        aadhaar: null,
+      });
+
+      if (user.profilePhotoPath)
+        setPhotoPreview(getFileUrl(user.profilePhotoPath));
+      if (user.aadhaarPath) setAadhaarPreview(getFileUrl(user.aadhaarPath));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  fetchUser();
+}, [id]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -100,13 +99,14 @@ const UpdateForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
-    Object.keys(formData).forEach((key) => data.append(key, formData[key]));
+    Object.keys(formData).forEach((key) => {
+      if (formData[key] !== null) data.append(key, formData[key]);
+    });
 
     try {
       await axios.put(`${API_URL}/update/${id}`, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
       setSuccessMessage("✅ प्रोफाइल यशस्वीपणे अपडेट झाले!");
       setTimeout(() => {
         setSuccessMessage("");

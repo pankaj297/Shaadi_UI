@@ -2,7 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./UserCard.css"; // ✅ Add card-specific styles
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:8080";
+
 
 const UserCard = ({ user }) => {
   const navigate = useNavigate();
@@ -10,11 +11,7 @@ const UserCard = ({ user }) => {
   return (
     <div className="user-card">
       <img
-        src={
-          user.profilePhotoPath
-            ? `${BASE_URL}${user.profilePhotoPath}`
-            : "/default-avatar.png"
-        }
+        src={user.profilePhotoPath || "/default-avatar.png"}
         alt={user.name}
         className="user-photo"
       />

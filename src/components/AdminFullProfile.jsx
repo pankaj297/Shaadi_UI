@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { getUserById } from "../services/userService";
 import "./AdminFullProfile.css";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:8080";
 
 const AdminFullProfile = () => {
   const { id } = useParams();
@@ -42,11 +42,7 @@ const AdminFullProfile = () => {
         {/* Left: User Photo */}
         <div className="admin-photo-section">
           <img
-            src={
-              user.profilePhotoPath
-                ? `${BASE_URL}${user.profilePhotoPath}`
-                : "/default-avatar.png"
-            }
+            src={user.profilePhotoPath || "/default-avatar.png"}
             alt={user.name}
             className="admin-user-photo"
           />
@@ -145,21 +141,13 @@ const AdminFullProfile = () => {
           <h2>Documents</h2>
           <p>
             <span className="admin-info-label"> प्रोफाइल फोटो: </span>
-            <a
-              href={`${BASE_URL}${user.profilePhotoPath}`}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={user.profilePhotoPath} target="_blank" rel="noreferrer">
               View
             </a>
           </p>
           <p>
             <span className="admin-info-label"> आधार कार्ड: </span>
-            <a
-              href={`${BASE_URL}${user.aadhaarPath}`}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={user.aadhaarPath} target="_blank" rel="noreferrer">
               View
             </a>
           </p>

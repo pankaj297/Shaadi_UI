@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./HomePage.css"; // Custom CSS
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const [registeredUsers, setRegisteredUsers] = useState([]);
-  const [lastUser, setLastUser] = useState(null);
 
-  useEffect(() => {
-    const storedUsers =
-      JSON.parse(localStorage.getItem("registeredUsers")) || [];
-    setRegisteredUsers(storedUsers);
-    if (storedUsers.length > 0) {
-      setLastUser(storedUsers[storedUsers.length - 1]);
+  // ✅ Get current user ID from localStorage
+  const currentUserId = localStorage.getItem("currentUserId");
+
+  const handleViewProfile = () => {
+    if (currentUserId) {
+      navigate(`/profile/${currentUserId}`);
+    } else {
+      alert("कृपया पहिले नोंदणी करा!");
+      navigate(`/register`);
     }
-  }, []);
+  };
 
   return (
     <div id="pm-home-container">
@@ -59,22 +60,9 @@ const HomePage = () => {
             >
               सुरुवात करा
             </button>
-
-            {lastUser ? (
-              <button
-                className="pm-hero-btn"
-                onClick={() => navigate(`/profile/${lastUser}`)}
-              >
-                प्रोफाइल पहा
-              </button>
-            ) : (
-              <button
-                className="pm-hero-btn"
-                onClick={() => alert("अजून कोणताही User नोंदणी केलेला नाही ✅")}
-              >
-                प्रोफाइल पहा
-              </button>
-            )}
+            <button className="pm-hero-btn" onClick={handleViewProfile}>
+               प्रोफाइल पहा
+            </button>
           </div>
         </div>
 
