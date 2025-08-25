@@ -60,9 +60,10 @@ const RegisterForm = () => {
       const fd = new FormData();
       Object.keys(formData).forEach((key) => fd.append(key, formData[key]));
 
-      const res = await axios.post(`${BASE_URL}/api/users/register`, fd, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+     await axios.post(`${BASE_URL}/users/register`, fd, {
+       headers: { "Content-Type": "multipart/form-data" },
+     });
+
 
       const userId = res.data.id || res.data.user?.id;
       if (!userId) {
