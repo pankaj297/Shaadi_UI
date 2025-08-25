@@ -5,8 +5,8 @@ import { registerUser } from "../services/userService";
 import "./RegisterForm.css";
 import axios from "axios";  // add this
 
-
-const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:8080";
+const BASE_URL =
+  import.meta.env.VITE_BASE_URL || "https://shaadi-server.onrender.com";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -79,7 +79,7 @@ const RegisterForm = () => {
         navigate(`/profile/${userId}`);
       }, 2000);
     } catch (err) {
-      console.error(err);
+      console.error("Registration error:", err.response?.data || err.message);
       setSuccessMessage("⚠️ नोंदणी अयशस्वी. कृपया पुन्हा प्रयत्न करा.");
     } finally {
       setIsSubmitting(false); // enable button after request
